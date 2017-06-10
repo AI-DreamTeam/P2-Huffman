@@ -5,6 +5,8 @@ import gi
 gi.require_version('Gtk', '3.0');
 from gi.repository import Gtk
 
+from huffman import Huffman;
+
 class HuffmanWindow (Gtk.Window):
 
     def __init__ (self):
@@ -27,12 +29,27 @@ class HuffmanWindow (Gtk.Window):
         self.encode_entry.set_placeholder_text ("Text to compress...");
         self.encode_entry.connect ("activate", self.compress_text);
 
+        self.file_chooser = Gtk.FileChooserButton (title="Text", action=Gtk.FileChooserAction.OPEN);
+        self.file_chooser.connect ("file_set", self.file_set);
+
+        file_label = Gtk.Label ("Input File:");
+        file_label.set_halign (Gtk.Align.START);
+        file_label.get_style_context ().add_class ("h4");
+
         box.add (encode_label);
         box.add (self.encode_entry);
+        box.add (file_label);
+        box.add (self.file_chooser);
 
     # This is the text to compress. You get it after presing _enter_
     def compress_text (self, entry):
-        print (entry.get_text ());
+        huffman = Huffman ();
+        huffman.getFrequency ("" + entry.get_text ());
+
+    def file_set (self, file_chooser):
+        archivo = open (file_chooser.get_file ().get_path (), "r");
+        for linea in archivo.readlines ():
+            print (linea);
 
 win = HuffmanWindow ();
 win.connect ("delete-event", Gtk.main_quit);
