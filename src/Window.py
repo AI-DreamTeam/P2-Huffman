@@ -13,13 +13,13 @@ class HuffmanWindow (Gtk.Window):
         Gtk.Window.__init__ (self, title= "Huffman Compressor");
         self.set_size_request (200, 100);
 
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6);
+        box = Gtk.Box (orientation=Gtk.Orientation.VERTICAL, spacing=6);
         box.set_margin_left (6);
         box.set_margin_right (6);
         box.set_margin_top (6);
         box.set_margin_bottom (6);
 
-        self.add(box)
+        self.add (box)
 
         encode_label = Gtk.Label ("Encode text:");
         encode_label.set_halign (Gtk.Align.START);
@@ -48,8 +48,12 @@ class HuffmanWindow (Gtk.Window):
 
     def file_set (self, file_chooser):
         archivo = open (file_chooser.get_file ().get_path (), "r");
+        texto = ""
         for linea in archivo.readlines ():
-            print (linea);
+            texto += linea
+
+        huffman = Huffman ();
+        huffman.getFrequency (texto);
 
 win = HuffmanWindow ();
 win.connect ("delete-event", Gtk.main_quit);

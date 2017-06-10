@@ -5,9 +5,9 @@ from operator import itemgetter;
 
 class Huffman:
     def __init__(self):
-        self.a = 1;
+        pass
 
-    def getFrequency (s, string):
+    def getFrequency (self, string):
         letters = collections.Counter (string);
 
         node_list = list();
@@ -23,8 +23,7 @@ class Huffman:
             node = Huffman.create_node (None, a[1] + b[1], b, a);
             Huffman.add_to_list (node_list, node);
 
-
-        print (node_list)
+        print (node_list[0])
 
     def create_node (string, freq, a, b):
           return (string, freq, a, b);
@@ -45,3 +44,7 @@ class Huffman:
             return 1
 
     #Node (Char char, Int freq, Node left, Node right)
+
+
+
+
