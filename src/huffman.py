@@ -5,25 +5,31 @@ from operator import itemgetter;
 
 class Huffman:
     def __init__(self):
-        pass
+        #Message to be coded (when user chooses to code a string)
+        self.originalMessage = ''
 
-    def getFrequency (self, string):
-        letters = collections.Counter (string);
+        #Three-value tuple for the freqTable. (Char char, Int freq, String code)
+        self.freqTable = ();
 
-        node_list = list();
+        #List representing the Huffman codes tree
+        self.node_list = list();
+
+    def getFrequency (self):
+        letters = collections.Counter (self.originalMessage);
+
         for letter in letters.most_common ():
             print ("%s : %s" % (letter[0] , letter[1]))
             node = Huffman.create_node (letter[0], letter[1], None, None);
-            Huffman.add_to_list (node_list, node);
+            Huffman.add_to_list (self.node_list, node);
 
-        while (len (node_list) > 1):
-            a = node_list.pop ();
-            b = node_list.pop ();
+        while (len (self.node_list) > 1):
+            a = self.node_list.pop ();
+            b = self.node_list.pop ();
 
             node = Huffman.create_node (None, a[1] + b[1], b, a);
-            Huffman.add_to_list (node_list, node);
+            Huffman.add_to_list (self.node_list, node);
 
-        print (node_list[0])
+        print (self.node_list[0])
 
     def create_node (string, freq, a, b):
           return (string, freq, a, b);
@@ -44,7 +50,3 @@ class Huffman:
             return 1
 
     #Node (Char char, Int freq, Node left, Node right)
-
-
-
-

@@ -44,18 +44,24 @@ class HuffmanWindow (Gtk.Window):
     # This is the text to compress. You get it after presing _enter_
     def compress_text (self, entry):
         huffman = Huffman ();
-        huffman.getFrequency ("" + entry.get_text ());
+        huffman.originalMessage = str(entry.get_text ())
+        huffman.getFrequency ();
 
     def file_set (self, file_chooser):
-        archivo = open (file_chooser.get_file ().get_path (), "r");
-        texto = ""
-        for linea in archivo.readlines ():
-            texto += linea
+        openedFile = open (file_chooser.get_file ().get_path (), "r");
+        text = ""
+        for line in openedFile.readlines ():
+            text += line
 
         huffman = Huffman ();
-        huffman.getFrequency (texto);
+        huffman.originalMessage = text
+        huffman.getFrequency ();
 
-win = HuffmanWindow ();
-win.connect ("delete-event", Gtk.main_quit);
-win.show_all ();
-Gtk.main ();
+def main():
+    win = HuffmanWindow ();
+    win.connect ("delete-event", Gtk.main_quit);
+    win.show_all ();
+    Gtk.main ();
+
+if __name__ == '__main__':
+    main()
