@@ -143,7 +143,7 @@ class Huffman:
         codedMessageByteSize = len(self.codedMessage)
         print('Size of the codedMessage: ' + str(codedMessageByteSize))
 
-        self.efficiencyLevel = 1 - (codedMessageByteSize / textByteSize)
+        self.efficiencyLevel = (codedMessageByteSize / textByteSize)
 
     def printFreqTable(self):
         result = '<b>Character\t\tFrequency\t\tCode</b>\n'

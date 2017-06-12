@@ -96,15 +96,17 @@ class HuffmanWindow (Gtk.Window):
 
         self.original_message = Gtk.Label ("");
         self.original_message.set_halign (Gtk.Align.START);
+        self.original_message.set_line_wrap (True);
+        self.original_message.set_line_wrap_mode (1);
         self.original_message.get_style_context ().add_class ("dim-label");
 
         self.efficiency = Gtk.ProgressBar ();
 
         efficiency_box = Gtk.Box (orientation=Gtk.Orientation.VERTICAL, spacing=6);
+        efficiency_box.add (compression_label);
+        efficiency_box.add (self.efficiency);
         efficiency_box.add (original_message);
         efficiency_box.add (self.original_message);
-        efficiency_box.add (self.original_message);
-        efficiency_box.add (self.efficiency);
 
         results_stack.add_titled (efficiency_box, "efficiency", "Efficiency");
 
@@ -134,10 +136,8 @@ class HuffmanWindow (Gtk.Window):
 
         self.original_message.set_label (huffman.codedMessage);
         self.efficiency.set_fraction (huffman.efficiencyLevel);
-        self.efficiency.set_text(str(huffman.efficiencyLevel) + '%')
-        self.efficiency.set_show_text(True)
-
-
+        self.efficiency.set_text ("{0:.2f}%".format (huffman.efficiencyLevel));
+        self.efficiency.set_show_text (True)
 
     def format_tree (self, huffman):
         lines = "{nodes}".format (nodes=huffman.node_list[0]).split ('(');
