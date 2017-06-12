@@ -11,7 +11,7 @@ class HuffmanWindow (Gtk.Window):
 
     def __init__ (self):
         Gtk.Window.__init__ (self, title= "Huffman Compressor");
-        self.set_size_request (200, 100);
+        self.set_size_request (300, 180);
 
         main_box = Gtk.Box (orientation=Gtk.Orientation.HORIZONTAL, spacing=6);
         main_box.set_margin_left (6);
@@ -23,7 +23,13 @@ class HuffmanWindow (Gtk.Window):
         box.set_hexpand (True);
         box.set_vexpand (True);
 
+        self.separator = Gtk.Separator (orientation=Gtk.Orientation.VERTICAL);
+        self.separator.set_visible (False);
+        self.separator.set_no_show_all (True);
+
         main_box.add (box);
+        main_box.add (self.separator);
+
         self.add (main_box);
 
         encode_label = Gtk.Label ("Encode text:");
@@ -32,7 +38,7 @@ class HuffmanWindow (Gtk.Window):
 
         self.encode_entry = Gtk.Entry ();
         self.encode_entry.set_placeholder_text ("Text to compress...");
-        self.encode_entry.connect ("activate", self.compress_text);
+        self.encode_entry.connect ("changed", self.compress_text);
 
         self.file_chooser = Gtk.FileChooserButton (title="Text", action=Gtk.FileChooserAction.OPEN);
         self.file_chooser.connect ("file_set", self.file_set);
@@ -57,12 +63,13 @@ class HuffmanWindow (Gtk.Window):
 
         switcher = Gtk.StackSwitcher ();
         switcher.set_stack (results_stack);
-        
+        switcher.set_halign (Gtk.Align.CENTER);
+
         scrollview = Gtk.ScrolledWindow ();
         scrollview.add (results_stack);
         scrollview.set_vexpand (True);
         scrollview.set_hexpand (True);
-        
+
         results_box = Gtk.Box (orientation=Gtk.Orientation.VERTICAL, spacing=6);
         results_box.add (switcher);
         results_box.add (scrollview);
@@ -73,6 +80,7 @@ class HuffmanWindow (Gtk.Window):
         # Frequency GUI
         self.frequency = Gtk.Label ("Character   Frequency    Code");
         self.frequency.set_use_markup (True);
+        self.frequency.set_valign (Gtk.Align.START);
         results_stack.add_titled (self.frequency, "frequency", "Frequency");
 
         self.tree = Gtk.Label ("");
@@ -101,6 +109,7 @@ class HuffmanWindow (Gtk.Window):
         self.show_results (huffman);
 
     def show_results (self, huffman):
+        self.separator.set_visible (True);
         self.results_revealer.set_reveal_child (True);
         self.tree.set_label (self.format_tree (huffman));
         self.frequency.set_label (huffman.printFreqTable ());
@@ -115,15 +124,15 @@ class HuffmanWindow (Gtk.Window):
             node_str = "{node}\n".format (node=node);
             if node_str == "\n":
                 continue;
-            
+
             for x in range (0, indent_level):
                 result = result + "    ";
             result = result + node_str.replace (")", "");
-            
+
             closures = node_str.split (")");
             indent_level = indent_level + 2;
             for c in closures:
-                indent_level = indent_level - 1;            
+                indent_level = indent_level - 1;
 
         return result;
 
