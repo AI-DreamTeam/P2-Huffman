@@ -86,9 +86,27 @@ class HuffmanWindow (Gtk.Window):
         self.tree = Gtk.Label ("");
         results_stack.add_titled (self.tree, "tree", "Binary Tree");
 
-        self.efficiency = Gtk.Label ("");
-        results_stack.add_titled (self.efficiency, "efficiency", "Efficiency");
+        original_message = Gtk.Label ("Coded message:");
+        original_message.set_halign (Gtk.Align.START);
+        original_message.get_style_context ().add_class ("h4");
 
+        compression_label = Gtk.Label ("New Size:");
+        compression_label.set_halign (Gtk.Align.START);
+        compression_label.get_style_context ().add_class ("h4");
+
+        self.original_message = Gtk.Label ("");
+        self.original_message.set_halign (Gtk.Align.START);
+        self.original_message.get_style_context ().add_class ("dim-label");
+
+        self.efficiency = Gtk.ProgressBar ();
+
+        efficiency_box = Gtk.Box (orientation=Gtk.Orientation.VERTICAL, spacing=6);
+        efficiency_box.add (original_message);
+        efficiency_box.add (self.original_message);
+        efficiency_box.add (self.original_message);
+        efficiency_box.add (self.efficiency);
+
+        results_stack.add_titled (efficiency_box, "efficiency", "Efficiency");
 
     # This is the text to compress. You get it after presing _enter_
     def compress_text (self, entry):
@@ -113,6 +131,10 @@ class HuffmanWindow (Gtk.Window):
         self.results_revealer.set_reveal_child (True);
         self.tree.set_label (self.format_tree (huffman));
         self.frequency.set_label (huffman.printFreqTable ());
+
+        self.original_message.set_label (huffman.codedMessage);
+        self.efficiency.set_fraction (huffman.efficiencyLevel);
+
 
 
     def format_tree (self, huffman):
