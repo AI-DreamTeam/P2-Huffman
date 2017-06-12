@@ -134,6 +134,8 @@ class HuffmanWindow (Gtk.Window):
 
         self.original_message.set_label (huffman.codedMessage);
         self.efficiency.set_fraction (huffman.efficiencyLevel);
+        self.efficiency.set_text(str(huffman.efficiencyLevel) + '%')
+        self.efficiency.set_show_text(True)
 
 
 

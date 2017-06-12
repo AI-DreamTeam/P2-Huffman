@@ -2,6 +2,7 @@
 
 import collections
 import subprocess as sp
+import sys
 from operator import itemgetter;
 
 class Huffman:
@@ -9,8 +10,18 @@ class Huffman:
         #Message to be coded
         self.originalMessage = ''
 
+        #Message coded after traversing the tree
+        self.codedMessage = ''
+
+        #Efficiency for the compression of the text
+        self.efficiencyLevel = 0.0
+
         #Three-tuple for the freqTable. (Char char, Int freq, String code)
         self.freqTable = list();
+
+        #Dictionary for fast access to the Huffman code of each letter
+        # dict = {'letter' : 'HuffmanCode'}
+        self.letterDictionary = dict()
 
         #List representing the Huffman codes tree. Each Node is a four-tuple:
         #Node (Char char, Int freq, Node left, Node right)
@@ -54,6 +65,19 @@ class Huffman:
                 codeArray.clear()
 
         self.printFreqTable()
+
+        print('Letter Dictionary:')
+        print(self.letterDictionary)
+
+        self.generateCodedMessage()
+
+        print('\n\nCoded message:')
+        print(self.codedMessage)
+
+        self.calculateEfficiencyLevel()
+
+        print('Efficiency level:')
+        print(str(self.efficiencyLevel))
 
     #Recursive method which traverses the tree until it finds the Huffman code for
     #the [letter] parameter and stores it in [codeArray]
@@ -99,7 +123,27 @@ class Huffman:
 
         newTup = (letter[0], letter[1], codeStr);
 
+        #Adds the tuple to the freqTable
         self.freqTable.append(newTup)
+
+        #Adds the letter and its code to the fast access Dictionary
+        self.letterDictionary[letter[0]] = codeStr
+
+    def generateCodedMessage(self):
+        for letter in self.originalMessage:
+            codeForLetter = self.letterDictionary[letter]
+            self.codedMessage += codeForLetter
+
+    def calculateEfficiencyLevel(self):
+        #We take each char in the originalMessage as 1 byte in storage
+        #and we convert it to bits
+        textByteSize = len(self.originalMessage) * 8
+        print('Size of the originalMessage: ' + str(textByteSize))
+
+        codedMessageByteSize = len(self.codedMessage)
+        print('Size of the codedMessage: ' + str(codedMessageByteSize))
+
+        self.efficiencyLevel = 1 - (codedMessageByteSize / textByteSize)
 
     def printFreqTable(self):
         result = '<b>Character\t\tFrequency\t\tCode</b>\n'
