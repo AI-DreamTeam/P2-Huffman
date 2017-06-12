@@ -45,7 +45,7 @@ class HuffmanWindow (Gtk.Window):
     def compress_text (self, entry):
         huffman = Huffman ();
         huffman.originalMessage = str(entry.get_text ())
-        huffman.getFrequency ();
+        huffman.startHuffmanCoding ();
 
     def file_set (self, file_chooser):
         openedFile = open (file_chooser.get_file ().get_path (), "r");
@@ -55,7 +55,7 @@ class HuffmanWindow (Gtk.Window):
 
         huffman = Huffman ();
         huffman.originalMessage = text
-        huffman.getFrequency ();
+        huffman.startHuffmanCoding ();
 
 def main():
     win = HuffmanWindow ();
