@@ -102,14 +102,11 @@ class Huffman:
         self.freqTable.append(newTup)
 
     def printFreqTable(self):
-        print('Frequency table:\n\n')
-        print('---------------------------------------------------')
-        print('Character\tFrequency\tCode')
+        result = '<b>Character\t\tFrequency\t\tCode</b>\n'
 
         for element in self.freqTable:
-            print('   ' + element[0] + '     \t' + '   ' + str(element[1]) + '     \t' + element[2])
-
-        print('---------------------------------------------------')
+            result += ('   <b>' + element[0] + '</b>\t\t\t\t' + str(element[1]) + '\t\t\t\t' + element[2] + "\n")
+        return result;
 
     def create_node (string, freq, a, b):
           return (string, freq, a, b);
